@@ -31,6 +31,30 @@ public class BankingApp {
         }
         if(attempts==0){
             System.out.println("Account locked.");
+            sc.close();
+            return;
+        }
+
+        System.out.println("Welcome, " + name + "!");
+
+        System.out.print("Enter account holder name: ");
+        String name = sc.nextLine();
+
+        while(attempts>0){
+            System.out.print("Enter 4 digit pin: ");
+            int enteredPin = sc.nextInt();
+
+            if(enteredPin==pin){
+                System.out.println("Login successful!");
+                break;
+            }
+            else{
+                attempts--;
+                System.out.println("Incorrect pin! Attempts left: " + attempts);
+            }
+        }
+        if(attempts==0){
+            System.out.println("Account locked.");
             return;
         }
 
@@ -63,6 +87,7 @@ public class BankingApp {
                         balance += deposit;
                         history.add("Deposited ₹" + deposit);
                         System.out.println("Deposit successful.");
+                        System.out.println("Current Balance: ₹" + balance);
                         depositCounter++;
                     } else {
                         System.out.println("Invalid amount.");
@@ -81,6 +106,7 @@ public class BankingApp {
                         balance -= withdraw;
                         history.add("Withdrawn ₹" + withdraw);
                         System.out.println("Withdrawal successful.");
+                        System.out.println("Current Balance: ₹" + balance);
                         withdrawCounter++;
                     }
                     break;
