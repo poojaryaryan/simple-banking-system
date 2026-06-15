@@ -7,7 +7,34 @@ public class BankingApp {
         Scanner sc = new Scanner(System.in);
 
         double balance = 1000;
+        int pin = 1234;
+        int depositCounter = 0;
+        int withdrawCounter = 0;
+        int attempts = 3;
         ArrayList<String> history = new ArrayList<>();
+
+        System.out.print("Enter account holder name: ");
+        String name = sc.nextLine();
+
+        while(attempts>0){
+            System.out.print("Enter 4 digit pin: ");
+            int enteredPin = sc.nextInt();
+
+            if(enteredPin==pin){
+                System.out.println("Login successful!");
+                break;
+            }
+            else{
+                attempts--;
+                System.out.println("Incorrect pin! Attempts left: " + attempts);
+            }
+        }
+        if(attempts==0){
+            System.out.println("Account locked.");
+            return;
+        }
+
+        System.out.println("Welcome, " + name + "!");
 
         while (true) {
 
@@ -16,7 +43,8 @@ public class BankingApp {
             System.out.println("2. Deposit");
             System.out.println("3. Withdraw");
             System.out.println("4. Transaction History");
-            System.out.println("5. Exit");
+            System.out.println("5. Mini Statement");
+            System.out.println("6. Exit");
             System.out.print("Enter choice: ");
 
             int choice = sc.nextInt();
@@ -35,6 +63,7 @@ public class BankingApp {
                         balance += deposit;
                         history.add("Deposited ₹" + deposit);
                         System.out.println("Deposit successful.");
+                        depositCounter++;
                     } else {
                         System.out.println("Invalid amount.");
                     }
@@ -52,6 +81,7 @@ public class BankingApp {
                         balance -= withdraw;
                         history.add("Withdrawn ₹" + withdraw);
                         System.out.println("Withdrawal successful.");
+                        withdrawCounter++;
                     }
                     break;
 
@@ -67,6 +97,15 @@ public class BankingApp {
                     break;
 
                 case 5:
+                    System.out.println("Account holder: " + name);
+                    System.out.println("Balance: " + balance);
+                    System.out.println("Total deposits: " + depositCounter);
+                    System.out.println("Total withdrawals: " + withdrawCounter);
+                    if(history.isEmpty()) System.out.println("Last transaction: None");
+                    else System.out.println("Last transaction: " + history.get(history.size()-1));
+                    break;
+
+                case 6:
                     System.out.println("Thank you for using our bank!");
                     sc.close();
                     return;
