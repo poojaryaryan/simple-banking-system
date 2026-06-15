@@ -12,6 +12,7 @@ public class BankingApp {
         int withdrawCounter = 0;
         int attempts = 3;
         ArrayList<String> history = new ArrayList<>();
+        history.add("Account opened with ₹1000");
 
         System.out.print("Enter account holder name: ");
         String name = sc.nextLine();
@@ -32,29 +33,6 @@ public class BankingApp {
         if(attempts==0){
             System.out.println("Account locked.");
             sc.close();
-            return;
-        }
-
-        System.out.println("Welcome, " + name + "!");
-
-        System.out.print("Enter account holder name: ");
-        String name = sc.nextLine();
-
-        while(attempts>0){
-            System.out.print("Enter 4 digit pin: ");
-            int enteredPin = sc.nextInt();
-
-            if(enteredPin==pin){
-                System.out.println("Login successful!");
-                break;
-            }
-            else{
-                attempts--;
-                System.out.println("Incorrect pin! Attempts left: " + attempts);
-            }
-        }
-        if(attempts==0){
-            System.out.println("Account locked.");
             return;
         }
 
