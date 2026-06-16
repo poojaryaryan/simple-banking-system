@@ -21,11 +21,12 @@ public class BankingApp {
         double initialDeposit = sc.nextDouble();
 
 
-        BankAccount account = new BankAccount(name, pin, initialDeposit);
+        BankAccount account = new BankAccount(1001, name, pin, initialDeposit);
 
         TransactionManager transactions = new TransactionManager();
         if(account.getBalance()>0){
             transactions.addTransaction("Account opened with initial deposit ₹" + initialDeposit);
+            System.out.println("Your Account Number: " + account.getAccountNumber());
         }
 
         while(attempts>0){
@@ -118,6 +119,7 @@ public class BankingApp {
                     break;
 
                 case 5:
+                    System.out.println("Account number: " + account.getAccountNumber());
                     System.out.println("Account holder: " + account.getName());
                     System.out.println("Balance: " + account.getBalance());
                     System.out.println("Total deposits: " + depositCounter);

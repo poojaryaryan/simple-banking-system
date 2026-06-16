@@ -2,11 +2,13 @@ public class BankAccount {
     private String name;
     private int pin;
     private double balance;
+    private int accountNumber;
 
-    public BankAccount(String name, int pin, double balance){
+    public BankAccount( int accountNumber, String name, int pin, double balance){
         this.name = name;
         this.pin = pin;
         this.balance = balance;
+        this.accountNumber = accountNumber;
     }
 
     public String getName(){
@@ -19,6 +21,10 @@ public class BankAccount {
 
     public void deposit(double amount){
         balance+=amount;
+    }
+
+    public int getAccountNumber(){
+        return accountNumber;
     }
 
     public boolean withdraw(double amount){
