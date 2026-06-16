@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class BankingApp {
@@ -6,22 +5,25 @@ public class BankingApp {
 
         Scanner sc = new Scanner(System.in);
 
-        double balance = 1000;
-        int pin = 1234;
         int depositCounter = 0;
         int withdrawCounter = 0;
         int attempts = 3;
-        ArrayList<String> history = new ArrayList<>();
-        history.add("Account opened with ₹1000");
 
         System.out.print("Enter account holder name: ");
         String name = sc.nextLine();
+
+        BankAccount account = new BankAccount(name,1234,1000);
+
+        TransactionManager transactions = new TransactionManager();
+        if(account.getBalance()>0){
+            transactions.addTransaction("Account opened with ₹" + account.getBalance());
+        }
 
         while(attempts>0){
             System.out.print("Enter 4 digit pin: ");
             int enteredPin = sc.nextInt();
 
-            if(enteredPin==pin){
+            if(account.verifyPin(enteredPin)){
                 System.out.println("Login successful!");
                 break;
             }
@@ -36,7 +38,7 @@ public class BankingApp {
             return;
         }
 
-        System.out.println("Welcome, " + name + "!");
+        System.out.println("Welcome, " + account.getName() + "!");
 
         while (true) {
 
@@ -54,18 +56,22 @@ public class BankingApp {
             switch (choice) {
 
                 case 1:
-                    System.out.println("Current Balance: ₹" + balance);
+                    System.out.println("Current Balance: ₹" + account.getBalance());
                     break;
 
                 case 2:
-                    System.out.print("Enter amount to deposit: ");
+                    System.out.print("Enter amount to deposit: ₹");
                     double deposit = sc.nextDouble();
 
-                    if (deposit > 0) {
-                        balance += deposit;
-                        history.add("Deposited ₹" + deposit);
+                    while(!(deposit>0)){
+                        System.out.print("Enter valid amount to deposit: ₹");
+                        deposit = sc.nextDouble();
+                    }
+                    if(deposit>0){
+                        account.deposit(deposit);
+                        transactions.addTransaction("Deposited: ₹" + deposit);
                         System.out.println("Deposit successful.");
-                        System.out.println("Current Balance: ₹" + balance);
+                        System.out.println("Current Balance: ₹" + account.getBalance());
                         depositCounter++;
                     } else {
                         System.out.println("Invalid amount.");
@@ -73,40 +79,36 @@ public class BankingApp {
                     break;
 
                 case 3:
-                    System.out.print("Enter amount to withdraw: ");
+                    System.out.print("Enter amount to withdraw: ₹");
                     double withdraw = sc.nextDouble();
 
-                    if (withdraw <= 0) {
-                        System.out.println("Invalid amount.");
-                    } else if (withdraw > balance) {
-                        System.out.println("Insufficient balance.");
-                    } else {
-                        balance -= withdraw;
-                        history.add("Withdrawn ₹" + withdraw);
+                    while(!(withdraw>0)){
+                        System.out.print("Enter valid amount to withdraw: ₹");
+                        withdraw = sc.nextDouble();
+                    }
+
+                    if (account.withdraw(withdraw)) {
+                        account.withdraw(withdraw);
+                        transactions.addTransaction("Withdrawn: ₹" + withdraw);
                         System.out.println("Withdrawal successful.");
-                        System.out.println("Current Balance: ₹" + balance);
+                        System.out.println("Current Balance: ₹" + account.getBalance());
                         withdrawCounter++;
+                    }
+                    else {
+                        System.out.println("Insufficient Balance!");
                     }
                     break;
 
                 case 4:
-                    if (history.isEmpty()) {
-                        System.out.println("No transactions found.");
-                    } else {
-                        System.out.println("\nTransaction History:");
-                        for (String transaction : history) {
-                            System.out.println(transaction);
-                        }
-                    }
+                    transactions.showHistory();
                     break;
 
                 case 5:
-                    System.out.println("Account holder: " + name);
-                    System.out.println("Balance: " + balance);
+                    System.out.println("Account holder: " + account.getName());
+                    System.out.println("Balance: " + account.getBalance());
                     System.out.println("Total deposits: " + depositCounter);
                     System.out.println("Total withdrawals: " + withdrawCounter);
-                    if(history.isEmpty()) System.out.println("Last transaction: None");
-                    else System.out.println("Last transaction: " + history.get(history.size()-1));
+                    System.out.println(transactions.getLastTransaction());
                     break;
 
                 case 6:
