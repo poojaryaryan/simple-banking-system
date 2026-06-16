@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class BankingApp {
@@ -8,15 +9,23 @@ public class BankingApp {
         int depositCounter = 0;
         int withdrawCounter = 0;
         int attempts = 3;
+        int choice = 0;
 
         System.out.print("Enter account holder name: ");
         String name = sc.nextLine();
 
-        BankAccount account = new BankAccount(name,1234,1000);
+        System.out.print("Create a 4-digit PIN: ");
+        int pin = sc.nextInt();
+
+        System.out.print("Enter initial deposit amount: ");
+        double initialDeposit = sc.nextDouble();
+
+
+        BankAccount account = new BankAccount(name, pin, initialDeposit);
 
         TransactionManager transactions = new TransactionManager();
         if(account.getBalance()>0){
-            transactions.addTransaction("Account opened with ₹" + account.getBalance());
+            transactions.addTransaction("Account opened with initial deposit ₹" + initialDeposit);
         }
 
         while(attempts>0){
@@ -51,7 +60,12 @@ public class BankingApp {
             System.out.println("6. Exit");
             System.out.print("Enter choice: ");
 
-            int choice = sc.nextInt();
+            try{
+                choice = sc.nextInt();
+            }catch(InputMismatchException e){
+                System.out.println("Enter a valid input!");
+                sc.nextLine();
+            }
 
             switch (choice) {
 
