@@ -16,7 +16,7 @@ public class TransactionManager {
             System.out.println("No Transactions Found.");
             return;
         }
-        System.out.println("\nTransaction History: ");
+        System.out.println("\n---Transaction History---");
         for(String transaction : history){
             System.out.println(transaction);
         }

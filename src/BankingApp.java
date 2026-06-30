@@ -119,6 +119,7 @@ public class BankingApp {
                     break;
 
                 case 5:
+                    System.out.println("\n---Mini Statement---");
                     System.out.println("Account number: " + account.getAccountNumber());
                     System.out.println("Account holder: " + account.getName());
                     System.out.println("Balance: " + account.getBalance());
